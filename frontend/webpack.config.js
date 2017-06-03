@@ -144,9 +144,6 @@ const config = {
         });
       }
     },
-    new webpack.DefinePlugin({
-      'process.env': serverlessEnv,
-    }),
   ],
 };
 
