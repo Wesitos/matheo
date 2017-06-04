@@ -1,0 +1,43 @@
+@import "~sweetalert2/src/sweetalert2";
+@import "~materialize-css/sass/materialize";
+
+.margin-top-10 {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.margin-right-10 {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.handwrite {
+  font-family: 'Indie Flower', cursive;
+}
+
+.border-5 {
+  border-radius: 10px;
+}
+
+.beta {
+  font-size: 10px;
+}
+
+.img-centered {
+  display: block;
+  margin: auto;
+}
+
+.coins-back {
+  background-image: url('../img/piggy-bank.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50%;
+}
+
+#level-bar {
+    height: 60px;
+}
+
+#level-layout {
+    height: 60px;
+}

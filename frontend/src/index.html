@@ -1,8 +1,123 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Mercadito</title>
-  </head>
-  <body>
-  </body>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Hungry Market</title>
+    <meta name="name" content="hungrymarket">
+    <meta name="author" content="luisenriquecastillogongora">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="/img/ico/favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Open+Sans" rel="stylesheet">
+</head>
+<body>
+    <div class="container handwrite">
+        <div class="row">
+            <div></div>
+            <div class="row lime z-depth-2 darken-4 border-5">
+                <h4 class="handwrite white-text center">Hungry Market <span class="beta">-Beta-</span></h4>
+            </div>
+            <div class="col s10">
+                <div class="row">
+                    <div class="col s9 lime z-depth-2 lighten-1 border-5">
+                        <h4 class="handwrite white-text center"><span> Level <span id="level-number">1</span></span></h4>
+                    </div>
+                    <div id="lifes-layout" class="row col s3">
+                    </div>
+                    <script id="good-lifes-template" type="text/x-handlebars-template">
+                        <div class="col s4">
+                            <img src="img/like.png">
+                        </div>
+                    </script>
+                    <script id="bad-lifes-template" type="text/x-handlebars-template">
+                        <div class="col s4">
+                            <img src="img/notlike.png">
+                        </div>
+                    </script>
+                </div>
+                <div class="row">
+                    <div id="level-layout" class="grey border-5">
+                        <div id="level-bar" class="yellow z-depth-2 lighten-1 border-5">
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div id="coins-layout" class="col s2 center">
+            </div>
+            <script id="coins-template" type="text/x-handlebars-template">
+                <div class="z-depth-4 waves-effect coins-back center waves-light border-5 ">
+                    <div class="col s12">
+                        <h4 class="center black-text">Coins</h4>
+                    </div>
+                    <div class="col s12">
+                        <h2 class="center border-text">{{coins}}</h2>
+                    </div>
+                </div>
+            </script>
+            <br>
+            <div class="col s9 z-depth-3 orange darken-2 border-5">
+                <h3 class="center white-text border-text">Food</h3>
+                <div id="fruits-layout"></div>
+                <script id="fruit-template" type="text/x-handlebars-template">
+                    <div class="col s2 z-depth-4 waves-effect waves-light orange lighten-2 border-5 margin-right-10 margin-top-10">
+                        <h5 class="center white-text">{{name}}</h5>
+                        <img class="responsive-img" src="{{src}}">
+                        <h5 class="center white-text">${{price}}</h5>
+                    </div>
+                </script>
+            </div>
+            <div class="col s3 ">
+                <div class="row">
+                    <h5 class="handwrite center">Payment $<span id="answer_input"></span></h5>
+                    <div id="keyboard-input" class="center row">
+                    </div>
+                    <script  id="number-button-template" type="text/x-handlebars-template">
+                      <div class="number-button col s4 center margin-top-10">
+                            <a class="btn-floating btn-large center waves-effect waves-light green lighten-1"><h4>{{number}}</h4></a>
+                        </div>
+                    </script>
+                    <div class="center">
+                        <button id="send_button" class="btn lime darken-1">Go</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <audio controls autoplay style="display: none">
+        <source src="${require('./audio/background.mp3')}" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+        <footer class="page-footer orange lighten-2">
+            <div class="container">
+                <div class="row">
+                    <div class="col l6 s12">
+                            <h5 class="white-text">Hungry Market</h5>
+                        <p class="grey-text text-lighten-4">People is hungry, so you need to be fast</p>
+                    </div>
+                    <div class="col l4 offset-l2 s12">
+                        <h5 class="white-text">Learn</h5>
+                        <ul>
+                            <li><a class="grey-text text-lighten-3" href="http://math.thewayyouteach.me">Math</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-copyright">
+                <div class="container">
+                    © 2017 Hungry Market developed by <a class="white-text" href="http://thewayyouteach.me">Luis Enrique Castillo Góngora</a>
+                    <a class="white-text right" href="http://thewayyouteach.me">The Way You Teach Me</a>
+                </div>
+            </div>
+        </footer>
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-99646486-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+</body>
 </html>

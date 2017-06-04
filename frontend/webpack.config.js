@@ -36,6 +36,13 @@ const config = {
         },
       },
       {
+        test: /\.(wav|mp3)$/,
+        loader: 'file-loader',
+        options: {
+          name: 'audio/[name]-[hash].[ext]',
+        },
+      },
+      {
         test: /\.scss$/,
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',
@@ -92,6 +99,7 @@ const config = {
   resolve: {
     alias: {
       jquery: 'jquery/src/jquery',
+      handlebars: 'handlebars/dist/handlebars.min.js',
     },
   },
   plugins: [
