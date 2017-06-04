@@ -31,6 +31,12 @@ const soundLibrary = (stampit()
             audio.play();
           }
         },
+        volume(audioName, vol) {
+          const audio = this.audioCache[audioName];
+          if (audio) {
+            audio.volume(vol);
+          }
+        },
         stop(audioPath) {
           const audio = this[audioPath];
           if (audio) {
@@ -39,7 +45,7 @@ const soundLibrary = (stampit()
         },
       }))({ // Inicializacion de la biblioteca de sonidos
         goodMove: require('../audio/good_move.wav'),
-        badMove: require('../audio/pop.wav'),
+        pop: require('../audio/pop.wav'),
         background: require('../audio/background.mp3'),
       });
 
@@ -231,7 +237,6 @@ const boxViewFactory = stampit()
           answerInput.text(0);
 
           boxLayout.on('click', '.number-button', function onClick() {
-            soundLibrary.play('badMove');
             const digit = $(this).children().first()[0].text;
             self.insertDigit(digit);
           });
@@ -341,6 +346,7 @@ const mainViewFactory = stampit()
             serial.on('open', () => console.log('SerialPort opened'));
             serial.on('data', (buf) => {
               swal.close();
+              soundLibrary.play('pop');
               const digit = buf.toString();
               if (!isNaN(parseInt(digit, 10))) {
                 return this.boxView.insertDigit(digit);
@@ -382,5 +388,5 @@ const mainViewFactory = stampit()
 const mainView = mainViewFactory();
 mainView.render();
 mainView.componentDidMount();
-
-window.soundLibrary = soundLibrary;
+soundLibrary.volume('background', 0.1);
+soundLibrary.play('background');
