@@ -9,6 +9,8 @@
   ],
   "license": "MIT",
   "scripts": {
+    "install": "electron-rebuild",
+    "start": "electron .",
     "build": "webpack",
     "deploy": "export NODE_ENV=production && webpack",
     "dev": "webpack-dev-server"
@@ -20,6 +22,7 @@
     "jquery": "2.2.4",
     "lodash": "^4.17.4",
     "materialize-css": "0.98.2",
+    "serialport": "^4.0.7",
     "stampit": "^3.1.3",
     "sweetalert2": "^6.6.4"
   },
@@ -30,6 +33,8 @@
     "babel-preset-env": "^1.4.0",
     "change-case": "^3.0.1",
     "css-loader": "^0.28.0",
+    "electron": "^1.4.1",
+    "electron-rebuild": "1.4.0",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.1.3",
     "eslint-plugin-import": "^2.2.0",

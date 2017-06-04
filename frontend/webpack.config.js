@@ -15,12 +15,13 @@ const config = {
   output: {
     path: path.join(__dirname, 'dist'),
     filename: 'js/[name]-[hash].js',
-    publicPath: '/',
+    publicPath: '',
   },
   devServer: {
     compress: true,
   },
-  devtool: isProduction ? 'hidden-source-map' : 'eval-source-map',
+  target: 'electron-renderer',
+  devtool: 'eval-source-map',
   module: {
     rules: [
       {
@@ -102,56 +103,70 @@ const config = {
       handlebars: 'handlebars/dist/handlebars.min.js',
     },
   },
+  externals: [
+    (function () {
+      var IGNORES = [
+        'electron',
+        'serialport',
+      ];
+      return function (context, request, callback) {
+        if (IGNORES.indexOf(request) >= 0) {
+          return callback(null, 'commonjs ' + request);
+        }
+        return callback();
+      };
+    })()
+  ],
   plugins: [
     new ExtractTextPlugin('css/[name].css'),
     new HtmlWebpackPlugin({
       template: './src/index.html',
     }),
-    new PurifyCSSPlugin({
-      paths: [].concat(
-        glob.sync(path.join(__dirname, 'src/**/*.?(html|js)')),
-        glob.sync(path.join(__dirname, 'node_modules/materialize-css/js/**/*.js'))
-      ),
-      minimize: isProduction,
-      styleExtensions: ['.css'],
-    }),
-    // Add contenthash to the css files
-    {
-      apply(compiler) {
-        compiler.plugin('this-compilation', (compilation) => {
-          compilation.plugin('additional-assets', (cb) => {
-            const {assets} = compilation;
-            const originalAssetsToRename = Object.keys(assets).map(
-              name => path.extname(
-                name.indexOf('?') >= 0 ?
-                  name.split('?').slice(0, -1).join('') :
-                  name) === '.css' && { name, asset: assets[name] });
-            compilation.chunks.forEach(
-              (chunk) => {
-                const {name: chunkName, files, modules} = chunk;
-                const assetsToRename = originalAssetsToRename.filter(
-                  asset => asset && files.indexOf(asset.name) >= 0);
+    // new PurifyCSSPlugin({
+    //   paths: [].concat(
+    //     glob.sync(path.join(__dirname, 'src/**/*.?(html|js)')),
+    //     glob.sync(path.join(__dirname, 'node_modules/materialize-css/js/**/*.js'))
+    //   ),
+    //   minimize: isProduction,
+    //   styleExtensions: ['.css'],
+    // }),
+    // // Add contenthash to the css files
+    // {
+    //   apply(compiler) {
+    //     compiler.plugin('this-compilation', (compilation) => {
+    //       compilation.plugin('additional-assets', (cb) => {
+    //         const {assets} = compilation;
+    //         const originalAssetsToRename = Object.keys(assets).map(
+    //           name => path.extname(
+    //             name.indexOf('?') >= 0 ?
+    //               name.split('?').slice(0, -1).join('') :
+    //               name) === '.css' && { name, asset: assets[name] });
+    //         compilation.chunks.forEach(
+    //           (chunk) => {
+    //             const {name: chunkName, files, modules} = chunk;
+    //             const assetsToRename = originalAssetsToRename.filter(
+    //               asset => asset && files.indexOf(asset.name) >= 0);
 
-                assetsToRename.forEach(({name, asset}) => {
-                  const fileIdx = files.indexOf(name);
-                  // Create new asset path // HARDCODED FORMAT!!!
-                  const newPath = compilation.getPath(
-                    'css/[name]-[hash].css', {chunk});
-                  // Replace asset reference in chunk
-                  files[fileIdx] = newPath;
-                  // Add new asset
-                  assets[newPath] = asset;
-                });
-              });
-            // Delete original assets
-            originalAssetsToRename.forEach(({name}) => {
-              delete assets[name];
-            });
-            cb();
-          });
-        });
-      }
-    },
+    //             assetsToRename.forEach(({name, asset}) => {
+    //               const fileIdx = files.indexOf(name);
+    //               // Create new asset path // HARDCODED FORMAT!!!
+    //               const newPath = compilation.getPath(
+    //                 'css/[name]-[hash].css', {chunk});
+    //               // Replace asset reference in chunk
+    //               files[fileIdx] = newPath;
+    //               // Add new asset
+    //               assets[newPath] = asset;
+    //             });
+    //           });
+    //         // Delete original assets
+    //         originalAssetsToRename.forEach(({name}) => {
+    //           delete assets[name];
+    //         });
+    //         cb();
+    //       });
+    //     });
+    //   }
+    // },
   ],
 };
 
@@ -165,7 +180,7 @@ if (isProduction) {
     new webpack.DefinePlugin({
       'process.env': {
           NODE_ENV: JSON.stringify('production'),
-        }
+      },
       }),
     new webpack.optimize.UglifyJsPlugin({
       beautify: false,
